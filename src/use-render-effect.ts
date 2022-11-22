@@ -6,7 +6,10 @@ type RenderEffectState = {
   deps: DependencyList;
 };
 
-export function useRenderEffect(effect: EffectCallback, deps: DependencyList) {
+export function useRenderEffect(
+  effect: EffectCallback,
+  deps: DependencyList
+): void {
   const state = useRef<RenderEffectState>();
   const prev = state.current;
 
