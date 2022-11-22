@@ -7,14 +7,14 @@ describe("useConst", () => {
   const result = Symbol("test-result");
   const fabric = jest.fn().mockReturnValue(result);
 
-  test("first render", () => {
+  test("render", () => {
     const hook = renderHook(() => useConst(fabric));
 
     expect(hook.result.current).toBe(result);
     expect(fabric).toHaveBeenCalledWith();
   });
 
-  test("second render", () => {
+  test("re-render", () => {
     const hook = renderHook(() => useConst(fabric));
     hook.rerender();
 
@@ -22,7 +22,7 @@ describe("useConst", () => {
     expect(fabric).toHaveBeenCalledTimes(1);
   });
 
-  test("second render, with new fabric", () => {
+  test("re-render, with new fabric", () => {
     const hook = renderHook((props) => useConst(props.fabric), {
       initialProps: { fabric },
     });
