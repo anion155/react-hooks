@@ -11,8 +11,8 @@
   "private": false,
   "exports": {
     ".": {
-      "types": "./src/index.tsx",
-      "require": "./dist/index.js"
+      "types": "./src/index/index.tsx",
+      "require": "./dist/index/index.js"
     }
   },
   "scripts": {
