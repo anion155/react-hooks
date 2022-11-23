@@ -20,16 +20,27 @@ const plugins = [
   commonjs(),
 ];
 
-/** @type {import('rollup').MergedRollupOptions} */
-const config = {
-  input: pkg.exports["."].types,
-  output: {
-    file: pkg.exports["."].require,
-    format: "cjs",
-    sourcemap: true,
+/** @type {import('rollup').MergedRollupOptions[]} */
+const config = [
+  {
+    input: pkg.exports["."].types,
+    output: {
+      file: pkg.exports["."].require,
+      format: "cjs",
+      sourcemap: true,
+    },
+    plugins,
   },
-  external: ["./internal"],
-  plugins,
-};
+  {
+    input: pkg.exports["./rxjs"].types,
+    output: {
+      file: pkg.exports["./rxjs"].require,
+      format: "cjs",
+      sourcemap: true,
+    },
+    external: ["./index"],
+    plugins,
+  },
+];
 
 export default config;

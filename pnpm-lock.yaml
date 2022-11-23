@@ -19,6 +19,7 @@ specifiers:
   rimraf: ^3.0.2
   rollup: ^3.4.0
   rollup-plugin-peer-deps-external: ^2.2.4
+  rxjs: ^7.5.7
   ts-jest: ^29.0.3
   typescript: ^4.9.3
 
@@ -41,6 +42,7 @@ devDependencies:
   rimraf: 3.0.2
   rollup: 3.4.0
   rollup-plugin-peer-deps-external: 2.2.4_rollup@3.4.0
+  rxjs: 7.5.7
   ts-jest: 29.0.3_4f6uxrzmuwipl5rr3bcogf6k74
   typescript: 4.9.3
 
@@ -4135,6 +4137,12 @@ packages:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
     dependencies:
       queue-microtask: 1.2.3
+    dev: true
+
+  /rxjs/7.5.7:
+    resolution: {integrity: sha512-z9MzKh/UcOqB3i20H6rtrlaE/CgjLOvheWK/9ILrbhROGTweAi1BaFsTT9FbwZi5Trr1qNRs+MXkhmR06awzQA==}
+    dependencies:
+      tslib: 2.4.1
     dev: true
 
   /safe-regex-test/1.0.0:
