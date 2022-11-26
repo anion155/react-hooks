@@ -5,26 +5,13 @@ import { of, throwError } from "rxjs";
 
 import { useRxSubscription } from "../use-rx-subscription";
 
+import { mockObservable } from "./mock-observable";
+
 describe("useRxSubscription", () => {
   const value = Symbol("test-value") as symbol;
 
-  const sourceUnsubscribe = jest.fn();
-  const sourceSubscribe = jest.fn();
-  const source = (() => {
-    const sourceI = of(value);
-    const { subscribe } = sourceI;
-    sourceI.subscribe = (...args: any) => {
-      sourceSubscribe(...args);
-      const subscription = subscribe.call(sourceI, ...args);
-      const { unsubscribe } = subscription;
-      subscription.unsubscribe = () => {
-        sourceUnsubscribe();
-        return unsubscribe.call(sourceI);
-      };
-      return subscription;
-    };
-    return sourceI;
-  })();
+  const source = of(value);
+  const { subscribe, unsubscribe } = mockObservable(source);
   const sourceFabric = jest.fn(() => source);
 
   const observer: Observer<symbol> = {
@@ -38,7 +25,7 @@ describe("useRxSubscription", () => {
     const hook = renderHook(() => useRxSubscription(sourceFabric, []));
 
     expect(sourceFabric).toHaveBeenCalledWith();
-    expect(sourceSubscribe).toHaveBeenCalledWith(undefined);
+    expect(subscribe).toHaveBeenCalledWith(undefined);
     expect(hook.result.current).toBeUndefined();
   });
 
@@ -46,7 +33,7 @@ describe("useRxSubscription", () => {
     const hook = renderHook(() => useRxSubscription(sourceFabric, []));
     hook.unmount();
 
-    expect(sourceUnsubscribe).toHaveBeenCalledWith();
+    expect(unsubscribe).toHaveBeenCalledWith();
   });
 
   test("re-render, with new sourceFabric, same deps", () => {
@@ -58,7 +45,7 @@ describe("useRxSubscription", () => {
 
     expect(sourceFabric).toHaveBeenCalledWith();
     expect(nextSourceFabric).not.toHaveBeenCalled();
-    expect(sourceUnsubscribe).not.toHaveBeenCalled();
+    expect(unsubscribe).not.toHaveBeenCalled();
   });
 
   test("re-render, with new sourceFabric, and deps", () => {
@@ -74,7 +61,7 @@ describe("useRxSubscription", () => {
 
     expect(sourceFabric).not.toHaveBeenCalled();
     expect(nextSourceFabric).toHaveBeenCalledWith();
-    expect(sourceUnsubscribe).toHaveBeenCalledWith();
+    expect(unsubscribe).toHaveBeenCalledWith();
   });
 
   test("render, with observerFabric", () => {
@@ -110,7 +97,7 @@ describe("useRxSubscription", () => {
 
     expect(observerFabric).toHaveBeenCalledWith();
     expect(nextObserverFabric).not.toHaveBeenCalled();
-    expect(sourceUnsubscribe).not.toHaveBeenCalled();
+    expect(unsubscribe).not.toHaveBeenCalled();
   });
 
   test("re-render, with new observerFabric, and deps", () => {
@@ -127,6 +114,6 @@ describe("useRxSubscription", () => {
 
     expect(observerFabric).not.toHaveBeenCalled();
     expect(nextObserverFabric).toHaveBeenCalledWith();
-    expect(sourceUnsubscribe).toHaveBeenCalledWith();
+    expect(unsubscribe).toHaveBeenCalledWith();
   });
 });
