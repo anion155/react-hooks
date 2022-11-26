@@ -15,12 +15,12 @@ describe("isReactRxStore, without store", () => {
   const createStore = () => {
     const prototype = Object.create(subject);
     prototype.reactSubscription = () => {};
-    prototype.reactDispatch = () => {};
     prototype.getValue = () => {};
+    prototype.next = () => {};
     const store = Object.create(prototype);
     store.reactSubscription = () => {};
-    store.reactDispatch = () => {};
     store.getValue = () => {};
+    store.next = () => {};
     return store;
   };
 
@@ -40,18 +40,6 @@ describe("isReactRxStore, without store", () => {
     expect(isReactRxStore(store)).toBe(false);
   });
 
-  test("with invalid reactDispatch", () => {
-    const store = createStore();
-    store.reactDispatch = 1;
-    expect(isReactRxStore(store)).toBe(false);
-  });
-
-  test("with prototype reactDispatch", () => {
-    const store = createStore();
-    delete store.reactDispatch;
-    expect(isReactRxStore(store)).toBe(false);
-  });
-
   test("with invalid getValue", () => {
     const store = createStore();
     store.getValue = 1;
@@ -61,6 +49,18 @@ describe("isReactRxStore, without store", () => {
   test("with prototype getValue", () => {
     const store = createStore();
     delete store.getValue;
+    expect(isReactRxStore(store)).toBe(false);
+  });
+
+  test("with invalid next", () => {
+    const store = createStore();
+    store.next = 1;
+    expect(isReactRxStore(store)).toBe(false);
+  });
+
+  test("with prototype next", () => {
+    const store = createStore();
+    delete store.next;
     expect(isReactRxStore(store)).toBe(false);
   });
 

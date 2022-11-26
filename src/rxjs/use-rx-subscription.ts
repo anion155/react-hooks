@@ -21,10 +21,10 @@ export function useRxSubscription<T>(
   observerFabric?: () => PartialObserver<T>,
   observerDeps?: DependencyList
 ): void {
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- argument memoization
+  /* eslint-disable react-hooks/exhaustive-deps -- argument memoization */
   const memoizedSourceFabric = useMemo(() => sourceFabric, sourceDeps);
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- argument memoization
   const memoizedObserverFabric = useMemo(() => observerFabric, observerDeps);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   const subscription = useMemo(() => {
     return from(memoizedSourceFabric()).subscribe(memoizedObserverFabric?.());

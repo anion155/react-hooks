@@ -5,10 +5,6 @@ import { EmptyValueError } from "./errors";
 
 export interface ReactRxStore<T> extends BehaviorSubject<T> {
   reactSubscription: (onStoreChange: () => void) => () => void;
-  reactDispatch: {
-    (value: T): void;
-    (modifier: (current: T) => T): void;
-  };
 }
 
 export function isReactRxStore<T>(
@@ -18,10 +14,10 @@ export function isReactRxStore<T>(
   return (
     Object.prototype.hasOwnProperty.call(obj, "reactSubscription") &&
     obj.reactSubscription instanceof Function &&
-    Object.prototype.hasOwnProperty.call(obj, "reactDispatch") &&
-    obj.reactDispatch instanceof Function &&
     Object.prototype.hasOwnProperty.call(obj, "getValue") &&
-    obj.getValue instanceof Function
+    obj.getValue instanceof Function &&
+    Object.prototype.hasOwnProperty.call(obj, "next") &&
+    obj.next instanceof Function
   );
 }
 
@@ -75,13 +71,7 @@ export function createReactRxStore<T>(
     const subscription = store.subscribe(onStoreChange);
     return () => subscription.unsubscribe();
   };
-  store.reactDispatch = (modifierOrValue) => {
-    const next =
-      modifierOrValue instanceof Function
-        ? modifierOrValue(store.getValue())
-        : modifierOrValue;
-    store.next(next);
-  };
   store.getValue = store.getValue.bind(store);
+  store.next = store.next.bind(store);
   return store;
 }

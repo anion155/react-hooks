@@ -1,16 +1,19 @@
-import { jest, expect, test, describe } from "@jest/globals";
+import { expect, test, describe } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
 import { BehaviorSubject } from "rxjs";
 
 import { createReactRxStore } from "../react-rx-store";
-import { useRxStore, useRxStoreValue } from "../use-rx-store";
+import {
+  useRxStore,
+  useRxStoreDispatcher,
+  useRxStoreValue,
+} from "../use-rx-store";
 
+import { mockBehaviorSubject } from "./mock-behavior-subject";
 import { mockObservable } from "./mock-observable";
 
 describe("useRxStore", () => {
   const value = Symbol("test-value") as symbol;
-  const subject = new BehaviorSubject(value);
-  const complete = jest.spyOn(subject, "complete");
 
   test("render", () => {
     const hook = renderHook(() => useRxStore(value));
@@ -18,6 +21,8 @@ describe("useRxStore", () => {
   });
 
   test("unmount", () => {
+    const subject = new BehaviorSubject(value);
+    const { complete } = mockBehaviorSubject(subject);
     const hook = renderHook(() => useRxStore(subject));
     hook.unmount();
 
@@ -25,6 +30,7 @@ describe("useRxStore", () => {
   });
 
   test("re-render", () => {
+    const subject = new BehaviorSubject(value);
     const nextSubject = new BehaviorSubject(value);
     const hook = renderHook(({ sub }) => useRxStore(sub), {
       initialProps: { sub: subject },
@@ -66,5 +72,48 @@ describe("useRxStoreValue", () => {
     expect(next.subscribe).toHaveBeenCalledWith(expect.any(Function));
     expect(unsubscribe).toHaveBeenCalledWith();
     expect(hook.result.current).toBe(nextValue);
+  });
+});
+
+describe("useRxStoreDispatcher", () => {
+  const value = Symbol("test-value") as symbol;
+  const nextValue = Symbol("test-next") as symbol;
+
+  test("render", () => {
+    const store = createReactRxStore(value);
+    const hook = renderHook(() => useRxStoreDispatcher(store));
+    expect(hook.result.current).toStrictEqual(expect.any(Function));
+  });
+
+  test("re-render, with new store", () => {
+    const store = createReactRxStore(value);
+    const nextStore = createReactRxStore(value);
+    const hook = renderHook(({ sub }) => useRxStoreDispatcher(sub), {
+      initialProps: { sub: store },
+    });
+    const first = hook.result.current;
+    hook.rerender({ sub: nextStore });
+
+    expect(hook.result.current).not.toBe(first);
+  });
+
+  test("dispatch value", () => {
+    const store = createReactRxStore(value);
+    const { getValue, next } = mockBehaviorSubject(store);
+    const hook = renderHook(() => useRxStoreDispatcher(store));
+    hook.result.current(nextValue);
+
+    expect(getValue).not.toHaveBeenCalled();
+    expect(next).toHaveBeenCalledWith(nextValue);
+  });
+
+  test("dispatch value, with modifier", () => {
+    const store = createReactRxStore(value);
+    const { getValue, next } = mockBehaviorSubject(store);
+    const hook = renderHook(() => useRxStoreDispatcher(store));
+    hook.result.current((curr: any) => [curr, nextValue] as any);
+
+    expect(getValue).toHaveBeenCalledWith();
+    expect(next).toHaveBeenCalledWith([value, nextValue]);
   });
 });
