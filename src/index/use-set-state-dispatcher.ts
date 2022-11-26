@@ -1,25 +1,27 @@
-import { useCallback } from "react";
-
-import { useConst } from "./use-const";
+import type { DependencyList } from "react";
+import { useCallback, useMemo } from "react";
 
 export type SetStateDispatcher<T> = (state: T | { (current: T): T }) => void;
 
 export function useSetStateDispatcher<T>(
   get: () => T,
-  set: (value: T) => void
+  set: (value: T) => void,
+  deps: DependencyList
 ): SetStateDispatcher<T> {
-  const initialGet = useConst(() => get);
-  const initialSet = useConst(() => set);
+  /* eslint-disable react-hooks/exhaustive-deps -- argument memoization */
+  const memoizedGet = useMemo(() => get, deps);
+  const memoizedSet = useMemo(() => set, deps);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   const dispatcher = useCallback<SetStateDispatcher<T>>(
     (nextOrModifier) => {
       const next =
         nextOrModifier instanceof Function
-          ? nextOrModifier(initialGet())
+          ? nextOrModifier(memoizedGet())
           : nextOrModifier;
-      initialSet(next);
+      memoizedSet(next);
     },
-    [initialGet, initialSet]
+    [memoizedGet, memoizedSet]
   );
 
   return dispatcher;

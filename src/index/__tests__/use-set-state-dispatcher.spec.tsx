@@ -8,9 +8,36 @@ describe("useSetStateDispatcher", () => {
   const get = jest.fn().mockReturnValue(current);
   const set = jest.fn();
 
+  test("render", () => {
+    const hook = renderHook(() => useSetStateDispatcher(get, set, []));
+
+    expect(hook.result.current).toStrictEqual(expect.any(Function));
+  });
+
+  test("re-render with same deps", () => {
+    const hook = renderHook(() =>
+      useSetStateDispatcher(() => current, set, [])
+    );
+    const first = hook.result.current;
+    hook.rerender();
+
+    expect(hook.result.current).toBe(first);
+  });
+
+  test("re-render with next deps", () => {
+    const hook = renderHook(
+      ({ deps }) => useSetStateDispatcher(() => current, set, deps),
+      { initialProps: { deps: [1] } }
+    );
+    const first = hook.result.current;
+    hook.rerender({ deps: [2] });
+
+    expect(hook.result.current).not.toBe(first);
+  });
+
   test("dispatch value", () => {
     const next = Symbol("test-next");
-    const hook = renderHook(() => useSetStateDispatcher(get, set));
+    const hook = renderHook(() => useSetStateDispatcher(get, set, []));
     hook.result.current(next);
 
     expect(get).not.toHaveBeenCalled();
@@ -19,7 +46,7 @@ describe("useSetStateDispatcher", () => {
 
   test("dispatch value, with modifier", () => {
     const next = Symbol("test-next");
-    const hook = renderHook(() => useSetStateDispatcher(get, set));
+    const hook = renderHook(() => useSetStateDispatcher(get, set, []));
     hook.result.current((curr: any) => [curr, next]);
 
     expect(get).toHaveBeenCalledWith();
