@@ -29,6 +29,15 @@ describe("useRxStore", () => {
     expect(complete).toHaveBeenCalledWith();
   });
 
+  test("unmount with initial store", () => {
+    const store = createReactRxStore(value);
+    const { complete } = mockBehaviorSubject(store);
+    const hook = renderHook(() => useRxStore(store));
+    hook.unmount();
+
+    expect(complete).not.toHaveBeenCalled();
+  });
+
   test("re-render", () => {
     const subject = new BehaviorSubject(value);
     const nextSubject = new BehaviorSubject(value);

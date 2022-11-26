@@ -7,7 +7,10 @@ import { createReactRxStore } from "./react-rx-store";
 
 export function useRxStore<T>(initial: ReactRxStoreInput<T>) {
   const store = useConst(() => createReactRxStore(initial));
-  useRenderEffect(() => () => store.complete(), [store]);
+  useRenderEffect(() => {
+    if (store === initial) return undefined;
+    return () => store.complete();
+  }, [store]);
 
   return store;
 }
