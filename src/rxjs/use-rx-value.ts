@@ -1,7 +1,7 @@
 import type { DependencyList } from "react";
 import type { BehaviorSubject, ObservableInput } from "rxjs";
 
-import { useRxState } from "./use-rx-state";
+import { useRxStore, useRxStoreValue } from "./use-rx-store";
 import { useRxSubscription } from "./use-rx-subscription";
 
 export function useRxValue<T>(
@@ -16,7 +16,8 @@ export function useRxValue<T>(
   sourceFabric: () => ObservableInput<T>,
   deps: DependencyList
 ) {
-  const [value, , store] = useRxState<T | undefined>(undefined);
+  const store = useRxStore<T | undefined>(undefined);
+  const value = useRxStoreValue(store);
   useRxSubscription(sourceFabric, deps, () => store, [store]);
 
   return value;
