@@ -10,18 +10,19 @@ export type PromiseSubscriber<T, U = T> = (
   resolve: (value: U) => void,
   reject: (error: unknown) => void
 ) => Subscription;
+export type PromiseSubscribed<T> = Promise<T> & { subscription: Subscription };
 
 export function toPromise<T>(
   source: Observable<T>
-): Promise<T | undefined> & { subscription: Subscription };
+): PromiseSubscribed<T | undefined>;
 export function toPromise<T, U>(
   source: Observable<T>,
   subscriber: PromiseSubscriber<T, U>
-): Promise<U> & { subscription: Subscription };
+): PromiseSubscribed<U>;
 export function toPromise<T, U>(
   source: Observable<T>,
   subscriber: PromiseSubscriber<T, U> = toPromise.defaultSubscriber() as never
-): Promise<U> & { subscription: Subscription } {
+): PromiseSubscribed<U> {
   let subscription: Subscription | undefined;
   const promise = new Promise<U>((resolve, reject) => {
     subscription = subscriber(source, resolve, reject);
