@@ -184,9 +184,8 @@ describe("toPromise", () => {
       test("second time", () => {
         const subscriber = toPromise.throttle(wrappedSubscriber);
         const subscription = subscriber(new Subject(), resolve, reject);
-
         const unsubscribe = jest.spyOn(subscription, "unsubscribe");
-        subscriber(of(value), resolve, reject);
+        subscriber(new Subject(), resolve, reject);
 
         expect(unsubscribe).toHaveBeenCalledWith();
       });
