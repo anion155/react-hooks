@@ -22,8 +22,13 @@ specifiers:
   rollup-plugin-peer-deps-external: ^2.2.4
   rxjs: ^7.5.7
   ts-jest: ^29.0.3
+  tslib: ^2.4.1
   typescript: ^4.9.3
   use-sync-external-store: ^1.2.0
+
+dependencies:
+  tslib: 2.4.1
+  use-sync-external-store: 1.2.0_react@18.2.0
 
 devDependencies:
   '@anion155/eslint-config': 0.2.9_bfrtlz3rjs266qzwzchgy4kuxu
@@ -31,7 +36,7 @@ devDependencies:
   '@rollup/plugin-commonjs': 23.0.2_rollup@3.4.0
   '@rollup/plugin-node-resolve': 15.0.1_rollup@3.4.0
   '@rollup/plugin-replace': 5.0.1_rollup@3.4.0
-  '@rollup/plugin-typescript': 9.0.2_iyyukaj3pdiwftuon3ena43c4i
+  '@rollup/plugin-typescript': 9.0.2_vmrh7niimjcuan47h4hgsgyxjy
   '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
   '@types/react': 18.0.25
   '@types/use-sync-external-store': 0.0.3
@@ -48,7 +53,6 @@ devDependencies:
   rxjs: 7.5.7
   ts-jest: 29.0.3_4f6uxrzmuwipl5rr3bcogf6k74
   typescript: 4.9.3
-  use-sync-external-store: 1.2.0_react@18.2.0
 
 packages:
 
@@ -825,7 +829,7 @@ packages:
       rollup: 3.4.0
     dev: true
 
-  /@rollup/plugin-typescript/9.0.2_iyyukaj3pdiwftuon3ena43c4i:
+  /@rollup/plugin-typescript/9.0.2_vmrh7niimjcuan47h4hgsgyxjy:
     resolution: {integrity: sha512-/sS93vmHUMjzDUsl5scNQr1mUlNE1QjBBvOhmRwJCH8k2RRhDIm3c977B3wdu3t3Ap17W6dDeXP3hj1P1Un1bA==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -841,6 +845,7 @@ packages:
       '@rollup/pluginutils': 5.0.2_rollup@3.4.0
       resolve: 1.22.1
       rollup: 3.4.0
+      tslib: 2.4.1
       typescript: 4.9.3
     dev: true
 
@@ -3433,7 +3438,6 @@ packages:
 
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
-    dev: true
 
   /js-yaml/3.14.1:
     resolution: {integrity: sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g==}
@@ -3597,7 +3601,6 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
-    dev: true
 
   /lru-cache/6.0.0:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
@@ -4044,7 +4047,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
-    dev: true
 
   /regenerator-runtime/0.13.11:
     resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
@@ -4473,7 +4475,6 @@ packages:
 
   /tslib/2.4.1:
     resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
-    dev: true
 
   /tsutils/3.21.0_typescript@4.9.3:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
@@ -4564,7 +4565,7 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
-    dev: true
+    dev: false
 
   /v8-to-istanbul/9.0.1:
     resolution: {integrity: sha512-74Y4LqY74kLE6IFyIjPtkSTWzUZmj8tdHT9Ii/26dvQ6K9Dl2NbEfj0XgU2sHCtKgt5VupqhlO/5aWuqS+IY1w==}

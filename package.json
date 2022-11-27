@@ -11,16 +11,16 @@
   "private": false,
   "exports": {
     ".": {
-      "types": "./src/index/index.tsx",
+      "types": "./src/index/index.ts",
       "require": "./dist/index/index.js"
     },
     "./rxjs": {
-      "types": "./src/rxjs/index.tsx",
+      "types": "./src/rxjs/index.ts",
       "require": "./dist/rxjs/index.js"
     }
   },
   "scripts": {
-    "build": "rimraf dist && rollup -c",
+    "build": "rimraf dist && rollup --bundleConfigAsCjs --config",
     "prepack": "npm run build"
   },
   "devDependencies": {
@@ -45,17 +45,19 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rxjs": "^7.5.7",
     "ts-jest": "^29.0.3",
-    "typescript": "^4.9.3",
-    "use-sync-external-store": "^1.2.0"
+    "typescript": "^4.9.3"
   },
   "peerDependencies": {
     "react": "^18.2.0",
-    "rxjs": "^7.5.7",
-    "use-sync-external-store": "^1.2.0"
+    "rxjs": "^7.5.7"
   },
   "peerDependenciesMeta": {
     "rxjs": {
       "optional": true
     }
+  },
+  "dependencies": {
+    "tslib": "^2.4.1",
+    "use-sync-external-store": "^1.2.0"
   }
 }
