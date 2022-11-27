@@ -5,3 +5,4 @@ export * from "./use-rx-value";
 
 export * from "./react-rx-store";
 export * from "./errors";
+export * from "./to-promise";
