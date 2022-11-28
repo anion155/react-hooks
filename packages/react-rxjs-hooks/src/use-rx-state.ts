@@ -1,4 +1,4 @@
-import type { SetStateDispatcher } from "../index";
+import type { SetStateDispatcher } from "@anion155/react-hooks";
 
 import type { ReactRxStore, ReactRxStoreInput } from "./react-rx-store";
 import {

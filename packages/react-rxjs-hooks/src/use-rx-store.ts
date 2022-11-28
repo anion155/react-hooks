@@ -1,6 +1,9 @@
+import {
+  useConst,
+  useRenderEffect,
+  useSetStateDispatcher,
+} from "@anion155/react-hooks";
 import { useSyncExternalStore } from "use-sync-external-store/shim";
-
-import { useConst, useRenderEffect, useSetStateDispatcher } from "../index";
 
 import type { ReactRxStore, ReactRxStoreInput } from "./react-rx-store";
 import { createReactRxStore } from "./react-rx-store";

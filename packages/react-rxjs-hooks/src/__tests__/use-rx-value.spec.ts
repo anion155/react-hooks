@@ -1,5 +1,6 @@
+import { asyncDelay } from "@anion155/react-hooks/utils";
 import { describe, expect, test } from "@jest/globals";
-import { renderHook } from "@testing-library/react";
+import { renderHook, waitFor } from "@testing-library/react";
 import { delay, of } from "rxjs";
 
 import { useRxValue } from "../use-rx-value";
@@ -25,12 +26,7 @@ describe("useRxValue", () => {
     );
 
     expect(hook.result.current).toBeUndefined();
-
-    await new Promise((resolve) => {
-      setTimeout(resolve, 200);
-    });
-    hook.rerender();
-
+    await waitFor(() => asyncDelay(200));
     expect(hook.result.current).toStrictEqual(value);
   });
 

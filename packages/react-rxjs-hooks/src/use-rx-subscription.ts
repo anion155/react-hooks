@@ -1,9 +1,8 @@
+import { useRenderEffect } from "@anion155/react-hooks";
 import type { DependencyList } from "react";
 import { useMemo } from "react";
 import type { ObservableInput, PartialObserver } from "rxjs";
 import { from } from "rxjs";
-
-import { useRenderEffect } from "../index";
 
 export function useRxSubscription<T>(
   sourceFabric: () => ObservableInput<T>,

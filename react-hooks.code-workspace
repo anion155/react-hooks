@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "packages/config"
+		},
+		{
+			"path": "packages/react-hooks"
+		},
+		{
+			"path": "packages/react-rxjs-hooks"
+		}
+	],
+	"settings": {}
+}

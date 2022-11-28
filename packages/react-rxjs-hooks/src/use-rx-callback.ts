@@ -1,9 +1,8 @@
+import { useConst, useRenderEffect } from "@anion155/react-hooks";
 import type { DependencyList } from "react";
 import { useCallback, useMemo } from "react";
 import type { ObservableInput } from "rxjs";
 import { Subscription, from } from "rxjs";
-
-import { useConst, useRenderEffect } from "../index";
 
 import type { PromiseSubscribed, PromiseSubscriber } from "./to-promise";
 import { toPromise } from "./to-promise";

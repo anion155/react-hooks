@@ -1,7 +1,6 @@
+import { assert } from "@anion155/react-hooks/utils";
 import type { Observable } from "rxjs";
 import { Subscription } from "rxjs";
-
-import { assert } from "../index";
 
 import { EmptyValueError } from "./errors";
 
