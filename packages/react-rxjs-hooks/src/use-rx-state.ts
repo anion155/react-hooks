@@ -1,11 +1,11 @@
 import type { SetStateDispatcher } from "@anion155/react-hooks";
 
-import type { ReactRxStore, ReactRxStoreInput } from "./react-rx-store";
 import {
   useRxStore,
   useRxStoreDispatcher,
   useRxStoreValue,
 } from "./use-rx-store";
+import type { ReactRxStore, ReactRxStoreInput } from "./utils";
 
 export function useRxState<T>(
   storeInitial: ReactRxStoreInput<T>

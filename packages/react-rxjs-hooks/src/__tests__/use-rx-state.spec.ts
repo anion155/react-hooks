@@ -1,8 +1,8 @@
 import { describe, expect, test } from "@jest/globals";
 import { act, renderHook } from "@testing-library/react";
 
-import { createReactRxStore } from "../react-rx-store";
 import { useRxState } from "../use-rx-state";
+import { createReactRxStore } from "../utils";
 
 describe("useRxState", () => {
   const value = Symbol("test-value") as symbol;

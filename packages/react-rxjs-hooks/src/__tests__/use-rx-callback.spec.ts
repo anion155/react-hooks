@@ -9,9 +9,9 @@ import {
   throwError,
 } from "rxjs";
 
-import type { PromiseSubscriber } from "../to-promise";
-import { toPromise } from "../to-promise";
 import { useRxCallback } from "../use-rx-callback";
+import type { PromiseSubscriber } from "../utils";
+import { toPromise } from "../utils";
 
 describe("useRxCallback", () => {
   const value = Symbol("test-value") as symbol;

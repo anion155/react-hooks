@@ -2,8 +2,8 @@ import type { DependencyList } from "react";
 import { useCallback, useMemo } from "react";
 import type { BehaviorSubject } from "rxjs";
 
-import type { ReactRxStoreInput } from "./react-rx-store";
 import { useRxStore } from "./use-rx-store";
+import type { ReactRxStoreInput } from "./utils";
 
 const defaultProject = (event: unknown) => event;
 

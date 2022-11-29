@@ -4,8 +4,8 @@ import { useCallback, useMemo } from "react";
 import type { ObservableInput } from "rxjs";
 import { Subscription, from } from "rxjs";
 
-import type { PromiseSubscribed, PromiseSubscriber } from "./to-promise";
-import { toPromise } from "./to-promise";
+import type { PromiseSubscribed, PromiseSubscriber } from "./utils";
+import { toPromise } from "./utils";
 
 export function useRxCallback<As extends unknown[], T>(
   sourceFabric: (...args: As) => ObservableInput<T>,

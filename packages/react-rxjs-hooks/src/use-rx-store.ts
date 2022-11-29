@@ -1,3 +1,4 @@
+import type { SetStateDispatcher } from "@anion155/react-hooks";
 import {
   useConst,
   useRenderEffect,
@@ -5,10 +6,10 @@ import {
 } from "@anion155/react-hooks";
 import { useSyncExternalStore } from "use-sync-external-store/shim";
 
-import type { ReactRxStore, ReactRxStoreInput } from "./react-rx-store";
-import { createReactRxStore } from "./react-rx-store";
+import type { ReactRxStore, ReactRxStoreInput } from "./utils";
+import { createReactRxStore } from "./utils";
 
-export function useRxStore<T>(initial: ReactRxStoreInput<T>) {
+export function useRxStore<T>(initial: ReactRxStoreInput<T>): ReactRxStore<T> {
   const store = useConst(() => createReactRxStore(initial));
   useRenderEffect(() => {
     if (store === initial) return undefined;
@@ -18,10 +19,12 @@ export function useRxStore<T>(initial: ReactRxStoreInput<T>) {
   return store;
 }
 
-export function useRxStoreValue<T>(store: ReactRxStore<T>) {
+export function useRxStoreValue<T>(store: ReactRxStore<T>): T {
   return useSyncExternalStore(store.reactSubscription, store.getValue);
 }
 
-export function useRxStoreDispatcher<T>(store: ReactRxStore<T>) {
+export function useRxStoreDispatcher<T>(
+  store: ReactRxStore<T>
+): SetStateDispatcher<T> {
   return useSetStateDispatcher(store.getValue, store.next, [store]);
 }

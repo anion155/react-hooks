@@ -3,9 +3,8 @@ import { renderHook } from "@testing-library/react";
 import type { Observer } from "rxjs";
 import { of, throwError } from "rxjs";
 
+import { mockObservable } from "../test-utils/mock-observable";
 import { useRxSubscription } from "../use-rx-subscription";
-
-import { mockObservable } from "./mock-observable";
 
 describe("useRxSubscription", () => {
   const value = Symbol("test-value") as symbol;
