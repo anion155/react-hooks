@@ -19,14 +19,13 @@ export function useRxCallback<As extends unknown[], T, U>(
 export function useRxCallback<As extends unknown[], T, U>(
   sourceFabric: (...args: As) => ObservableInput<T>,
   deps: DependencyList,
-  subscriber: PromiseSubscriber<
-    T,
-    U
-  > = useRxCallback.defaultSubscriber() as never
+  subscriber?: PromiseSubscriber<T, U>
 ): (...args: As) => PromiseSubscribed<U> {
   // eslint-disable-next-line react-hooks/exhaustive-deps -- argument memoization
   const memoizedSourceFabric = useMemo(() => sourceFabric, deps);
-  const memoizedSubscriber = useConst(() => subscriber);
+  const memoizedSubscriber = useConst(
+    () => subscriber ?? (useRxCallback.defaultSubscriber() as never)
+  );
 
   const subscription = useConst(() => new Subscription());
   useRenderEffect(() => () => subscription.unsubscribe(), [subscription]);
