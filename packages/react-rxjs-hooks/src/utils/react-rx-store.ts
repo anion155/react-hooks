@@ -1,8 +1,9 @@
 import { hasOwnProperty } from "@anion155/react-hooks/utils";
-import type { Observable, PartialObserver } from "rxjs";
+import type { Observable } from "rxjs";
 import { BehaviorSubject } from "rxjs";
 
 import { EmptyValueError } from "./errors";
+import { getImmediate } from "./get-immediate";
 
 export interface ReactRxStore<T> extends BehaviorSubject<T> {
   reactSubscription: (onStoreChange: () => void) => () => void;
@@ -22,31 +23,11 @@ export function isReactRxStore<T>(
   );
 }
 
-export function getImmediate<T>(
-  source: Observable<T>
-): { value: T } | { error: unknown } | undefined {
-  let result: { value: T } | { error: unknown } | undefined;
-  const immediateObserver: PartialObserver<T> = {
-    next: (value) => {
-      if (result) return;
-      result = { value };
-    },
-    error: (error) => {
-      if (result) return;
-      result = { error };
-    },
-    complete: () => {
-      if (result) return;
-      result = { error: new EmptyValueError() };
-    },
-  };
-  source.subscribe(immediateObserver).unsubscribe();
-  return result;
-}
-
-export function isImmediateCompleted<T>(source: Observable<T>) {
+export function isImmediateCompleted<T>(source: Observable<T>): boolean {
   const result = getImmediate(source);
-  return result && "error" in result && result.error instanceof EmptyValueError;
+  return (
+    !!result && "error" in result && result.error instanceof EmptyValueError
+  );
 }
 
 export type ReactRxStoreInput<T> =
