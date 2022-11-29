@@ -2,6 +2,9 @@
   "name": "@monorepo/config",
   "version": "0.1.0",
   "private": true,
+  "bin": {
+    "run-with-args": "./run-with-args.sh"
+  },
   "dependencies": {
     "@anion155/eslint-config": "^0.2.9",
     "@rollup/plugin-commonjs": "^23.0.2",
