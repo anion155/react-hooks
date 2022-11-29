@@ -1,6 +1,6 @@
 import { useCallback, useRef } from "react";
 
-import { assert } from "./utils/assert";
+import { assert } from "./utils";
 
 export function useConstCallback<As extends unknown[], R>(
   cb: (...args: As) => R

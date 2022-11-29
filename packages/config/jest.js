@@ -10,7 +10,6 @@ module.exports = {
       },
     ],
   },
-  testMatch: ["**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)"],
   clearMocks: true,
   globals: {
     __DEV__: true,
