@@ -1,4 +1,4 @@
-import { has } from "@anion155/react-hooks/utils";
+import { hasOwnProperty } from "@anion155/react-hooks/utils";
 import type { Observable, PartialObserver } from "rxjs";
 import { BehaviorSubject } from "rxjs";
 
@@ -13,11 +13,11 @@ export function isReactRxStore<T>(
 ): subject is ReactRxStore<T> {
   const obj = subject as unknown;
   return (
-    has(obj, "reactSubscription") &&
+    hasOwnProperty(obj, "reactSubscription") &&
     obj.reactSubscription instanceof Function &&
-    has(obj, "getValue") &&
+    hasOwnProperty(obj, "getValue") &&
     obj.getValue instanceof Function &&
-    has(obj, "next") &&
+    hasOwnProperty(obj, "next") &&
     obj.next instanceof Function
   );
 }
