@@ -4,6 +4,10 @@ This library contains utilities and react hooks.
 
 ## API hooks
 
+```ts
+import {} from '@anion155/react-hooks';
+```
+
 ### useConst
 
 ```ts
@@ -104,6 +108,10 @@ useEffect(() => {
 ## API utils
 
 There is submodule with utility functions
+
+```ts
+import {} from '@anion155/react-hooks/utils';
+```
 
 ### hasOwnProperty
 

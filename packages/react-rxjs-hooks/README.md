@@ -4,6 +4,10 @@ This library contains utilities and react hooks related to work with rxjs.
 
 ## API hooks
 
+```ts
+import {} from '@anion155/react-rxjs-hooks';
+```
+
 ### useRxSubscription
 
 ```ts
@@ -192,6 +196,10 @@ const result = await cb(6);
 ```
 
 ## API utils
+
+```ts
+import {} from '@anion155/react-rxjs-hooks/utils';
+```
 
 ### EmptyValueError
 
