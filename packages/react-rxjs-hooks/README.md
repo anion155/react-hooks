@@ -136,18 +136,18 @@ const value: number = useRxValue(() => new BehaviorSubject(5), []);
 [ReactRxStoreInput](#reactrxstore)
 
 ```ts
-function useRxEventStore<T>(storeInitial: ReactRxStoreInput<T>): [BehaviorSubject<T>, (arg: T) => void];
+function useRxEventStore<T>(storeInitial: ReactRxStoreInput<T>): [ReactRxStore<T>, (arg: T) => void];
 function useRxEventStore<As extends unknown[], T>(
   storeInitial: ReactRxStoreInput<T>,
   project: (...args: As) => T,
   deps: DependencyList
-): [BehaviorSubject<T>, (...args: As) => void];
+): [ReactRxStore<T>, (...args: As) => void];
 ```
 
 Creates event handler that stores event value to instance of [`ReactRxStore`](#reactrxstore).
 
 ```ts
-const [valueStore, handleChange] = useRxEventStore('', (event) => event.target.value);
+const [store, handleChange] = useRxEventStore('', (event) => event.target.value);
 <input onChange={handleChange} />
 ```
 
