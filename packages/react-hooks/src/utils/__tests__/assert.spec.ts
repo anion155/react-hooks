@@ -1,6 +1,6 @@
 import { expect, test } from "@jest/globals";
 
-import { assert } from "../utils/assert";
+import { assert } from "../assert";
 
 test("assert", () => {
   const message = "DeveloperError: assert message";
