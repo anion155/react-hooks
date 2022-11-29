@@ -19,25 +19,27 @@ describe("cancelablePromise", () => {
   });
 
   test("canceled state", () => {
-    jest.useFakeTimers();
+    try {
+      jest.useFakeTimers();
 
-    const callWithState = jest.fn();
-    const promise = cancelablePromise((res, rej, state) => {
-      callWithState(state.canceled);
-      setTimeout(() => {
+      const callWithState = jest.fn();
+      const promise = cancelablePromise((res, rej, state) => {
         callWithState(state.canceled);
-      }, 100);
-    });
-    promise.cancel();
-    promise.catch(() => {});
+        setTimeout(() => {
+          callWithState(state.canceled);
+        }, 100);
+      });
+      promise.cancel();
+      promise.catch(() => {});
 
-    jest.runAllTimers();
+      jest.runAllTimers();
 
-    expect(callWithState).toHaveBeenCalledTimes(2);
-    expect(callWithState).toHaveBeenNthCalledWith(1, false);
-    expect(callWithState).toHaveBeenNthCalledWith(2, true);
-
-    jest.useRealTimers();
+      expect(callWithState).toHaveBeenCalledTimes(2);
+      expect(callWithState).toHaveBeenNthCalledWith(1, false);
+      expect(callWithState).toHaveBeenNthCalledWith(2, true);
+    } finally {
+      jest.useRealTimers();
+    }
   });
 
   test("canceled with cleanup", () => {

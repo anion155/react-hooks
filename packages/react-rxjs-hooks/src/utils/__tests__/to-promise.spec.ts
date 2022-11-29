@@ -1,3 +1,4 @@
+import { CanceledError } from "@anion155/react-hooks/utils";
 import { describe, expect, jest, test } from "@jest/globals";
 import {
   Subscription,
@@ -6,6 +7,7 @@ import {
   Subject,
   first,
   BehaviorSubject,
+  delay,
 } from "rxjs";
 
 import { EmptyValueError } from "../errors";
@@ -50,6 +52,31 @@ describe("toPromise", () => {
       expect(() => toPromise(of(value), subscriber)).toThrow(
         "DeveloperError: subscription is not created yet, should never happen"
       );
+    });
+
+    test("promise cancel runs unsubscribe", () => {
+      try {
+        jest.useFakeTimers();
+        const promise = toPromise(of(value).pipe(delay(200)));
+        promise.catch(() => {});
+        promise.cancel();
+
+        expect(promise.subscription.closed).toBe(true);
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+
+    test("unsubscribe cancels promise", async () => {
+      try {
+        jest.useFakeTimers();
+        const promise = toPromise(of(value).pipe(delay(200)));
+
+        promise.subscription.unsubscribe();
+        await expect(promise).rejects.toBeInstanceOf(CanceledError);
+      } finally {
+        jest.useRealTimers();
+      }
     });
   });
 

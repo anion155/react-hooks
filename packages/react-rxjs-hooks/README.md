@@ -311,7 +311,7 @@ function toPromise<T, U>(
 ): PromiseSubscribed<U>;
 ```
 
-Creates `Promise` from `Observable`, with attached `Subscription` instance. Can accept `subscriber` function that can control result of `Promise`.
+Creates cancelable `Promise` from `Observable`, with attached `Subscription` instance. Can accept `subscriber` function that can control result of `Promise`.
 
 Subscribers:
 

@@ -1,4 +1,5 @@
-import { assert } from "@anion155/react-hooks/utils";
+import type { CancelablePromise } from "@anion155/react-hooks/utils";
+import { assert, cancelablePromise } from "@anion155/react-hooks/utils";
 import type { Observable } from "rxjs";
 import { Subscription } from "rxjs";
 
@@ -9,7 +10,9 @@ export type PromiseSubscriber<T, U = T> = (
   resolve: (value: U) => void,
   reject: (error: unknown) => void
 ) => Subscription;
-export type PromiseSubscribed<T> = Promise<T> & { subscription: Subscription };
+export type PromiseSubscribed<T> = CancelablePromise<T> & {
+  subscription: Subscription;
+};
 
 export function toPromise<T>(
   source: Observable<T>
@@ -23,13 +26,16 @@ export function toPromise<T, U>(
   subscriber: PromiseSubscriber<T, U> = toPromise.defaultSubscriber() as never
 ): PromiseSubscribed<U> {
   let subscription: Subscription | undefined;
-  const promise = new Promise<U>((resolve, reject) => {
+  const promise = cancelablePromise<U>((resolve, reject) => {
     subscription = subscriber(source, resolve, reject);
+    return () => subscription?.unsubscribe();
   });
   assert(
     subscription && subscription instanceof Subscription,
     "DeveloperError: subscription is not created yet, should never happen"
   );
+  subscription.add(() => promise.cancel());
+
   return Object.assign(promise, { subscription });
 }
 
