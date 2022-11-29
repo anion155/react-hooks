@@ -2,7 +2,7 @@
 
 This library contains utilities and react hooks.
 
-## API
+## API hooks
 
 ### useConst
 
@@ -19,7 +19,7 @@ const store = useConst(() => createStore());
 ### useRenderEffect
 
 ```ts
-type EffectCallback = () => (void | (() => void))
+type EffectCallback = () => (void | (() => void));
 function useRenderEffect(effect: EffectCallback, deps: DependencyList): void;
 ```
 
@@ -41,7 +41,7 @@ useRenderEffect(() => {
 
 ```ts
 type SetStateDispatcher<T> = (state: T | ((current: T) => T)) => void;
-function useSetStateDispatcher(get: () => T, set: (value: T) => void, deps: DependencyList): SetStateDispatcher<T>
+function useSetStateDispatcher(get: () => T, set: (value: T) => void, deps: DependencyList): SetStateDispatcher<T>;
 ```
 
 Creates set state action dispatcher function, which accepts next value or modifier.
@@ -64,9 +64,7 @@ dispatcher(current => current * 2);
 ### useEventState
 
 ```ts
-function useEventState<T>(
-  stateInitial: StateInitial<T>
-): [T, (arg: T) => void];
+function useEventState<T>(stateInitial: StateInitial<T>): [T, (arg: T) => void];
 function useEventState<As extends unknown[], T>(
   stateInitial: StateInitial<T>,
   project: (...args: As) => T,
@@ -87,7 +85,7 @@ const [value, handleChange] = useEventState('', (event) => event.target.value);
 ### useConstCallback
 
 ```ts
-function useConstCallback<As extends unknown[], R>(cb: (...args: As) => R): (...args: As) => R
+function useConstCallback<As extends unknown[], R>(cb: (...args: As) => R): (...args: As) => R;
 ```
 
 Creates stable callback instance, result function never changes until unmounted.
@@ -101,4 +99,78 @@ useEffect(() => {
   console.log('Runs one time only');
 }, [cb]);
 <button onClick={cb} />
+```
+
+## API utils
+
+There is submodule with utility functions
+
+### hasOwnProperty
+
+```ts
+function hasOwnProperty<P extends string, T>(obj: unknown, propertyName: P): obj is { [p in P]: T };
+```
+
+Type safe check if object has own property.
+
+```ts
+if (hasOwnProperty(obj, 'field')) {
+  obj.field; // ts now knows that obj has property 'field' of unknown type
+}
+```
+
+### assert
+
+```ts
+function assert<T>(condition: T, message?: string): asserts condition;
+```
+
+Simple assert function.
+
+```ts
+assert(hasOwnProperty(obj, 'field'), 'obj does not have property named "field"');
+obj.field; // ts now knows that obj has property 'field' of unknown type
+```
+
+### cancelablePromise
+
+```ts
+class CanceledError extends Error;
+type CancelablePromise<T> = Promise<T> & { cancel: () => void };
+type CancelState = { canceled: boolean };
+type CancelablePromiseExecutor<T> = (
+  resolve: (value: T | PromiseLike<T>) => void,
+  reject: (reason?: unknown) => void,
+  state: Readonly<CancelState>
+) => void | { (): void };
+function cancelablePromise<T>(executor: CancelablePromiseExecutor<T>): CancelablePromise<T>;
+```
+
+Creates cancelable promise.
+
+```ts
+const promise = cancelablePromise((resolve, reject, state) => {
+  const controller = new AbortController();
+  fetch('/something', { signal: controller.signal });
+  setTimeout(() => {
+    if (!state.canceled) return;
+    reject(new Error('Timeout'));
+  }, 1000);
+  return () => {
+    controller.abort();
+  };
+});
+promise.cancel();
+```
+
+### asyncDelay
+
+```ts
+function asyncDelay(timeout: number): CancelablePromise<void>;
+```
+
+Creates cancelable promise that will be resolved with timeout passed.
+
+```ts
+await asyncDelay(1000);
 ```
